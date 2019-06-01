@@ -4,7 +4,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/mkorolyov/astparser"
+	"github.com/AntonRutkevich/astparser"
 )
 
 type fieldNameConverter func(def astparser.FieldDef) string

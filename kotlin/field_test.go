@@ -3,7 +3,7 @@ package kotlin
 import (
 	"testing"
 
-	"github.com/mkorolyov/astparser"
+	"github.com/AntonRutkevich/astparser"
 )
 
 func Test_jsonTagFieldNameConverter(t *testing.T) {

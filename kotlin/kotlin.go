@@ -6,7 +6,7 @@ import (
 	"log"
 	"text/template"
 
-	"github.com/mkorolyov/astparser"
+	"github.com/AntonRutkevich/astparser"
 )
 
 type Generator struct {
@@ -47,12 +47,16 @@ func (g *Generator) Generate(sources map[string]astparser.ParsedFile) map[string
 			Classes: make([]Class, 0, len(file.Structs)),
 			Package: outPackage,
 		}
+	Loop:
 		for _, structDef := range file.Structs {
 			class := Class{
 				Name:   structDef.Name,
 				Fields: make([]Field, 0, len(structDef.Fields)),
 			}
 			for _, fieldDef := range structDef.Fields {
+				if fieldDef.JsonName == "" {
+					continue Loop
+				}
 				field := convertField(fieldDef, g.fieldNameConverter)
 				class.addDataClass(fieldDef, &field)
 				class.Fields = append(class.Fields, field)

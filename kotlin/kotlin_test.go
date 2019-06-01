@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/mkorolyov/astparser"
+	"github.com/AntonRutkevich/astparser"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

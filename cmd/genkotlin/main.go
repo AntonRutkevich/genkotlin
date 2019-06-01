@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mkorolyov/astparser"
+	"github.com/AntonRutkevich/astparser"
 	"github.com/mkorolyov/genkotlin/kotlin"
 )
 
