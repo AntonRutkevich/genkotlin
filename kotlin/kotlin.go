@@ -11,15 +11,18 @@ import (
 
 type Generator struct {
 	fieldNameConverter fieldNameConverter
+	outPackage         string
 }
 
 type Config struct {
 	UseJsonTagNames bool
+	OutPackage      string
 }
 
 func NewGenerator(cfg Config) *Generator {
 	generator := &Generator{
 		fieldNameConverter: defaultFieldNameConverter,
+		outPackage:         cfg.OutPackage,
 	}
 	if cfg.UseJsonTagNames {
 		generator.fieldNameConverter = jsonTagFieldNameConverter
@@ -27,7 +30,7 @@ func NewGenerator(cfg Config) *Generator {
 	return generator
 }
 
-func(g *Generator) Generate(sources map[string]astparser.ParsedFile) map[string][]byte {
+func (g *Generator) Generate(sources map[string]astparser.ParsedFile) map[string][]byte {
 	temp := template.New("tmpl").Funcs(isLastElemFn)
 	t, err := temp.Parse(tmpl)
 	if err != nil {
@@ -36,9 +39,13 @@ func(g *Generator) Generate(sources map[string]astparser.ParsedFile) map[string]
 
 	result := make(map[string][]byte, len(sources))
 	for name, file := range sources {
+		outPackage := file.Package
+		if g.outPackage != "" {
+			outPackage = g.outPackage
+		}
 		f := File{
 			Classes: make([]Class, 0, len(file.Structs)),
-			Package: file.Package,
+			Package: outPackage,
 		}
 		for _, structDef := range file.Structs {
 			class := Class{
